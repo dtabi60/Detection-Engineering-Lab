@@ -1,0 +1,1 @@
+Image=powershell.exe CommandLine=powershell.exe -NoProfile -ExecutionPolicy Bypass -Command Get-Date
