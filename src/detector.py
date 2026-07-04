@@ -1,37 +1,55 @@
 """
 detector.py
 
-Looks for suspicious PowerShell execution.
+Detection logic for suspicious PowerShell activity.
 """
 
 
 class Detector:
 
-    def detect_powershell(self, log_text):
+    def __init__(self):
+
+        self.suspicious_flags = [
+            "-ExecutionPolicy Bypass",
+            "-NoProfile",
+            "-EncodedCommand",
+            "-enc",
+            "-WindowStyle Hidden",
+            "-nop"
+        ]
+
+    def detect(self, log_text):
 
         findings = []
 
-        if "-ExecutionPolicy Bypass" in log_text:
-            findings.append("ExecutionPolicy Bypass detected")
+        for flag in self.suspicious_flags:
 
-        if "-NoProfile" in log_text:
-            findings.append("NoProfile detected")
+            if flag.lower() in log_text.lower():
 
-        if "EncodedCommand" in log_text:
-            findings.append("EncodedCommand detected")
+                findings.append(flag)
 
         return findings
 
 
 if __name__ == "__main__":
 
-    sample = "Image=powershell.exe CommandLine=powershell.exe -NoProfile -ExecutionPolicy Bypass"
+    sample_log = """
+    Image=powershell.exe
+    CommandLine=powershell.exe -NoProfile -ExecutionPolicy Bypass
+    """
 
     detector = Detector()
 
-    alerts = detector.detect_powershell(sample)
+    results = detector.detect(sample_log)
 
-    print("Detections:")
+    print("===== Detection Results =====")
 
-    for alert in alerts:
-        print("-", alert)
+    if results:
+
+        for result in results:
+
+            print(f"Suspicious flag detected: {result}")
+
+    else:
+
+        print("No suspicious behavior found.")
