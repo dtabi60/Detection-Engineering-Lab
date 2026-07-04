@@ -6,10 +6,9 @@ from alert import AlertBuilder
 
 
 def main():
-
     collector = LogCollector("sample_logs")
     parser = LogParser()
-    detector = Detector()
+    detector = Detector("detections")
     risk_scorer = RiskScorer()
     alert_builder = AlertBuilder()
 
@@ -19,16 +18,13 @@ def main():
     print(f"Found {len(log_files)} log files.\n")
 
     for log_file in log_files:
-
         if log_file.name == ".gitkeep":
             continue
 
         print(f"Analyzing: {log_file.name}")
 
         log_text = parser.read_log(log_file)
-
         findings = detector.detect(log_text)
-
         risk_score = risk_scorer.score(findings)
 
         alert = alert_builder.build_alert(
@@ -42,10 +38,9 @@ def main():
 
         if findings:
             print("Findings:")
-
             for finding in findings:
-                print(f"  - {finding}")
-
+                print(f"  - {finding['rule_title']} matched {finding['value']}")
+                print(f"    MITRE: {finding['mitre'].get('technique_id')}")
         else:
             print("No suspicious behavior found.")
 

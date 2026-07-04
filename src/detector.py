@@ -1,55 +1,52 @@
 """
 detector.py
 
-Detection logic for suspicious PowerShell activity.
+Loads YAML detection rules and checks logs for suspicious patterns.
 """
+
+import yaml
+from pathlib import Path
 
 
 class Detector:
+    def __init__(self, rules_directory="detections"):
+        self.rules_directory = Path(rules_directory)
+        self.rules = self.load_rules()
 
-    def __init__(self):
+    def load_rules(self):
+        rules = []
 
-        self.suspicious_flags = [
-            "-ExecutionPolicy Bypass",
-            "-NoProfile",
-            "-EncodedCommand",
-            "-enc",
-            "-WindowStyle Hidden",
-            "-nop"
-        ]
+        for rule_file in self.rules_directory.glob("*.yaml"):
+            with open(rule_file, "r") as file:
+                rule = yaml.safe_load(file)
+                rules.append(rule)
+
+        return rules
 
     def detect(self, log_text):
-
         findings = []
 
-        for flag in self.suspicious_flags:
+        for rule in self.rules:
+            for pattern in rule.get("patterns", []):
+                value = pattern.get("value")
 
-            if flag.lower() in log_text.lower():
-
-                findings.append(flag)
+                if value and value.lower() in log_text.lower():
+                    findings.append({
+                        "rule_title": rule.get("title"),
+                        "value": value,
+                        "score": pattern.get("score", 0),
+                        "mitre": rule.get("mitre", {})
+                    })
 
         return findings
 
 
 if __name__ == "__main__":
-
-    sample_log = """
-    Image=powershell.exe
-    CommandLine=powershell.exe -NoProfile -ExecutionPolicy Bypass
-    """
-
     detector = Detector()
+
+    sample_log = "powershell.exe -NoProfile -ExecutionPolicy Bypass"
 
     results = detector.detect(sample_log)
 
-    print("===== Detection Results =====")
-
-    if results:
-
-        for result in results:
-
-            print(f"Suspicious flag detected: {result}")
-
-    else:
-
-        print("No suspicious behavior found.")
+    for result in results:
+        print(result)

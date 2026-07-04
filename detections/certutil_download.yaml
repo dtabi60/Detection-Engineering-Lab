@@ -1,0 +1,25 @@
+title: "Certutil File Download"
+id: "certutil-download-001"
+description: "Detects certutil being used to download files from a remote URL."
+
+mitre:
+  technique_id: "T1105"
+  technique_name: "Ingress Tool Transfer"
+  tactic: "Command and Control"
+
+patterns:
+  - value: "certutil.exe"
+    score: 20
+  - value: "-urlcache"
+    score: 30
+  - value: "-split"
+    score: 10
+  - value: "http"
+    score: 20
+
+false_positives:
+  - "Certificate administration"
+  - "Internal PKI troubleshooting"
+  - "Security testing"
+
+level: "medium"

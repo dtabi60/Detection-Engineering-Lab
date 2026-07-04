@@ -1,0 +1,22 @@
+title: "Wscript From Temp"
+id: "wscript_from_temp-001"
+description: "Detects WScript executing Visual Basic scripts from temporary directories."
+
+mitre:
+  technique_id: "T1059.005"
+  technique_name: "Visual Basic"
+  tactic: "Execution"
+
+patterns:
+  - value: "wscript.exe"
+    score: 25
+  - value: "Temp"
+    score: 25
+  - value: ".vbs"
+    score: 20
+
+false_positives:
+  - "Administrative activity"
+  - "Security testing"
+
+level: "medium"
