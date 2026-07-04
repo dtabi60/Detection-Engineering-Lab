@@ -1,0 +1,29 @@
+{
+    "observable": "8.8.8.8",
+    "observable_type": "ip",
+    "sources": [
+        {
+            "source": "OTX",
+            "status": "success",
+            "verdict": "unknown",
+            "confidence": 0,
+            "summary": "OTX did not find pulses for this IP.",
+            "details": {
+                "pulse_count": 0,
+                "indicator": "8.8.8.8",
+                "type": "IPv4",
+                "country_code": "US",
+                "asn": "AS15169 google llc"
+            }
+        }
+    ],
+    "summary": {
+        "malicious_sources": 0,
+        "suspicious_sources": 0,
+        "benign_sources": 0,
+        "unknown_sources": 1,
+        "unsupported_sources": 0,
+        "error_sources": 0,
+        "max_confidence": 0
+    }
+}
