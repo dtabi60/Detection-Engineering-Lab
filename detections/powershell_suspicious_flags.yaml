@@ -1,0 +1,25 @@
+title: Suspicious PowerShell Execution Flags
+id: ps-suspicious-flags-001
+description: Detects PowerShell command lines using suspicious execution flags.
+mitre:
+  technique_id: T1059.001
+  technique_name: Command and Scripting Interpreter: PowerShell
+  tactic: Execution
+patterns:
+  - value: "-EncodedCommand"
+    score: 40
+  - value: "-enc"
+    score: 40
+  - value: "-ExecutionPolicy Bypass"
+    score: 30
+  - value: "-WindowStyle Hidden"
+    score: 25
+  - value: "-NoProfile"
+    score: 10
+  - value: "-nop"
+    score: 10
+false_positives:
+  - IT administration scripts
+  - Software deployment tools
+  - Security testing
+level: medium
