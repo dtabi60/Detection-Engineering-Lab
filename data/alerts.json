@@ -1,0 +1,42 @@
+[
+    {
+        "alert_name": "Suspicious PowerShell Execution",
+        "severity": "High",
+        "risk_score": 85,
+        "timestamp": "/Date(1783171508040)/",
+        "host": "Local Windows Host",
+        "user": "NYLPC0LWVEN\\Admin",
+        "process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "parent_process": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "command_line": "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command Get-Date",
+        "matched_flags": [
+            "-ExecutionPolicy Bypass",
+            "-NoProfile",
+            "-nop"
+        ],
+        "mitre": {
+            "technique_id": "T1059.001",
+            "technique_name": "PowerShell"
+        },
+        "raw_event": {
+            "timestamp": "/Date(1783171508040)/",
+            "event_id": 1,
+            "provider": "Microsoft-Windows-Sysmon",
+            "utc_time": "2026-07-04 13:25:08.038",
+            "process_guid": "{0f4cb63d-09b4-6a49-e535-000000006500}",
+            "process_id": "24868",
+            "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "command_line": "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command Get-Date",
+            "current_directory": "C:\\Users\\Admin\\Documents\\Detection-Engineering-Lab\\",
+            "user": "NYLPC0LWVEN\\Admin",
+            "integrity_level": "High",
+            "hashes": "SHA256=9785001B0DCF755EDDB8AF294A373C0B87B2498660F724E76C4D53F9C217C7A3",
+            "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "parent_process_id": "23268",
+            "parent_command_line": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noexit -command \"try { . \\\"c:\\Users\\Admin\\AppData\\Local\\Programs\\Microsoft VS Code\\6a49527b96\\resources\\app\\out\\vs\\workbench\\contrib\\terminal\\common\\scripts\\shellIntegration.ps1\\\" } catch {}\"",
+            "company": "Microsoft Corporation",
+            "description": "Windows PowerShell",
+            "product": "Microsoftr Windowsr Operating System"
+        }
+    }
+]
