@@ -1,0 +1,38 @@
+[
+    {
+        "alert_name": "Suspicious PowerShell Execution",
+        "severity": "High",
+        "risk_score": 75,
+        "timestamp": "/Date(1783227784898)/",
+        "user": "NYLPC0LWVEN\\Admin",
+        "host": "local_endpoint",
+        "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "command_line": "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -EncodedCommand RwBlAHQALQBEAGEAdABlAA==",
+        "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "mitre_tactic": "Execution",
+        "mitre_technique": "T1059.001 - PowerShell",
+        "reasons": [
+            "Encoded PowerShell command detected",
+            "ExecutionPolicy Bypass detected",
+            "NoProfile flag detected"
+        ]
+    },
+    {
+        "alert_name": "Suspicious PowerShell Execution",
+        "severity": "High",
+        "risk_score": 75,
+        "timestamp": "/Date(1783227127143)/",
+        "user": "NYLPC0LWVEN\\Admin",
+        "host": "local_endpoint",
+        "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "command_line": "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -EncodedCommand RwBlAHQALQBEAGEAdABlAA==",
+        "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "mitre_tactic": "Execution",
+        "mitre_technique": "T1059.001 - PowerShell",
+        "reasons": [
+            "Encoded PowerShell command detected",
+            "ExecutionPolicy Bypass detected",
+            "NoProfile flag detected"
+        ]
+    }
+]
