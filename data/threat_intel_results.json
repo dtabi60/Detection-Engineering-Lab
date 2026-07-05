@@ -4,16 +4,12 @@
     "sources": [
         {
             "source": "OTX",
-            "status": "success",
+            "status": "error",
             "verdict": "unknown",
             "confidence": 0,
-            "summary": "OTX did not find pulses for this IP.",
+            "summary": "OTX lookup failed.",
             "details": {
-                "pulse_count": 0,
-                "indicator": "8.8.8.8",
-                "type": "IPv4",
-                "country_code": "US",
-                "asn": "AS15169 google llc"
+                "error": "HTTPSConnectionPool(host='otx.alienvault.com', port=443): Read timed out. (read timeout=30)"
             }
         }
     ],
@@ -21,9 +17,9 @@
         "malicious_sources": 0,
         "suspicious_sources": 0,
         "benign_sources": 0,
-        "unknown_sources": 1,
+        "unknown_sources": 0,
         "unsupported_sources": 0,
-        "error_sources": 0,
+        "error_sources": 1,
         "max_confidence": 0
     }
 }

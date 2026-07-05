@@ -1,0 +1,11 @@
+{
+  "alert_id": "EDR-001",
+  "alert_name": "Suspicious PowerShell Execution",
+  "severity": "High",
+  "host": "LAB-WIN10",
+  "user": "Admin",
+  "process": "powershell.exe",
+  "command_line": "powershell.exe -NoProfile -ExecutionPolicy Bypass -EncodedCommand RwBlAHQALQBEAGEAdABlAA==",
+  "observable": "8.8.8.8",
+  "observable_type": "ip"
+}
