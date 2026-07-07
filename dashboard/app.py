@@ -1,15 +1,18 @@
 import sqlite3
 
+import plotly.express as px
 import pandas as pd
 import streamlit as st
-
+from dashboard.pages.timeline import render_timeline_page
 from dashboard.api_client import (
+
     get_alerts,
     get_alert_details,
     get_storyline,
     get_process_tree,
     get_response_actions,
     create_response_action,
+    
 )
 
 
@@ -308,6 +311,7 @@ elif page == "Alert Workspace":
     st.header("Alert Investigation Workspace")
     st.caption("API-driven analyst workspace powered by FastAPI")
 
+    
     try:
         alert_response = get_alerts()
         alerts = alert_response.get("alerts", [])
@@ -485,7 +489,6 @@ elif page == "Alert Workspace":
         st.divider()
 
         st.subheader("Response Action Audit History")
-
         if response_actions:
             st.json(response_actions)
         else:
@@ -497,52 +500,6 @@ elif page == "Alert Workspace":
 
 
 elif page == "Timeline":
-    st.header("Timeline")
-
-    timeline_df = query_db("""
-        SELECT 
-            e.hostname,
-            p.timestamp,
-            'Process' AS event_type,
-            p.process_name AS event_name,
-            p.command_line AS details
-        FROM processes p
-        LEFT JOIN endpoints e ON p.endpoint_id = e.id
-
-        UNION ALL
-
-        SELECT
-            e.hostname,
-            a.timestamp,
-            'Alert' AS event_type,
-            a.alert_name AS event_name,
-            a.description AS details
-        FROM alerts a
-        LEFT JOIN endpoints e ON a.endpoint_id = e.id
-
-        UNION ALL
-
-        SELECT
-            e.hostname,
-            n.timestamp,
-            'Network' AS event_type,
-            n.destination_ip AS event_name,
-            n.protocol || ' ' || n.destination_port AS details
-        FROM network_connections n
-        LEFT JOIN endpoints e ON n.endpoint_id = e.id
-
-        UNION ALL
-
-        SELECT
-            e.hostname,
-            f.timestamp,
-            'File' AS event_type,
-            f.file_path AS event_name,
-            f.action AS details
-        FROM file_events f
-        LEFT JOIN endpoints e ON f.endpoint_id = e.id
-
-        ORDER BY timestamp DESC
-    """)
-
-    st.dataframe(timeline_df, use_container_width=True)
+    render_timeline_page()
+    
+    
