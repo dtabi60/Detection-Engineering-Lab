@@ -3,18 +3,69 @@
         "alert_name": "Suspicious PowerShell Execution",
         "severity": "High",
         "risk_score": 75,
-        "timestamp": "/Date(1783227784898)/",
+        "timestamp": "/Date(1783260455973)/",
         "user": "NYLPC0LWVEN\\Admin",
         "host": "local_endpoint",
+        "hostname": "local_endpoint",
         "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "process_name": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "process_id": "13412",
+        "parent_process_id": null,
         "command_line": "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -EncodedCommand RwBlAHQALQBEAGEAdABlAA==",
         "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
         "mitre_tactic": "Execution",
         "mitre_technique": "T1059.001 - PowerShell",
+        "description": "PowerShell executed with suspicious command-line behavior.",
         "reasons": [
-            "Encoded PowerShell command detected",
-            "ExecutionPolicy Bypass detected",
-            "NoProfile flag detected"
+            "Encoded PowerShell command",
+            "ExecutionPolicy Bypass",
+            "NoProfile flag"
+        ]
+    },
+    {
+        "alert_name": "Suspicious PowerShell Execution",
+        "severity": "High",
+        "risk_score": 75,
+        "timestamp": "/Date(1783228275471)/",
+        "user": "NYLPC0LWVEN\\Admin",
+        "host": "local_endpoint",
+        "hostname": "local_endpoint",
+        "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "process_name": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "process_id": "23008",
+        "parent_process_id": null,
+        "command_line": "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -EncodedCommand RwBlAHQALQBEAGEAdABlAA==",
+        "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "mitre_tactic": "Execution",
+        "mitre_technique": "T1059.001 - PowerShell",
+        "description": "PowerShell executed with suspicious command-line behavior.",
+        "reasons": [
+            "Encoded PowerShell command",
+            "ExecutionPolicy Bypass",
+            "NoProfile flag"
+        ]
+    },
+    {
+        "alert_name": "Suspicious PowerShell Execution",
+        "severity": "High",
+        "risk_score": 75,
+        "timestamp": "/Date(1783227784898)/",
+        "user": "NYLPC0LWVEN\\Admin",
+        "host": "local_endpoint",
+        "hostname": "local_endpoint",
+        "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "process_name": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "process_id": "25576",
+        "parent_process_id": null,
+        "command_line": "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -EncodedCommand RwBlAHQALQBEAGEAdABlAA==",
+        "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "mitre_tactic": "Execution",
+        "mitre_technique": "T1059.001 - PowerShell",
+        "description": "PowerShell executed with suspicious command-line behavior.",
+        "reasons": [
+            "Encoded PowerShell command",
+            "ExecutionPolicy Bypass",
+            "NoProfile flag"
         ]
     },
     {
@@ -24,15 +75,20 @@
         "timestamp": "/Date(1783227127143)/",
         "user": "NYLPC0LWVEN\\Admin",
         "host": "local_endpoint",
+        "hostname": "local_endpoint",
         "image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "process_name": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "process_id": "18124",
+        "parent_process_id": null,
         "command_line": "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -EncodedCommand RwBlAHQALQBEAGEAdABlAA==",
         "parent_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
         "mitre_tactic": "Execution",
         "mitre_technique": "T1059.001 - PowerShell",
+        "description": "PowerShell executed with suspicious command-line behavior.",
         "reasons": [
-            "Encoded PowerShell command detected",
-            "ExecutionPolicy Bypass detected",
-            "NoProfile flag detected"
+            "Encoded PowerShell command",
+            "ExecutionPolicy Bypass",
+            "NoProfile flag"
         ]
     }
 ]

@@ -1,9 +1,27 @@
 import json
 import re
+from datetime import datetime, timezone
 from pathlib import Path
 
 RAW_FILE = Path("data/live_sysmon_events.json")
 OUTPUT_FILE = Path("data/normalized_sysmon_events.json")
+
+
+def clean_timestamp(value):
+    if not value:
+        return None
+
+    value = str(value)
+
+    # Handles PowerShell JSON format: /Date(1783226741146)/
+    match = re.search(r"/Date\((\d+)\)/", value)
+    if match:
+        milliseconds = int(match.group(1))
+        seconds = milliseconds / 1000
+        return datetime.fromtimestamp(seconds, tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+
+    # Handles normal timestamp strings
+    return value
 
 
 def extract_field(message, field_name):
@@ -28,7 +46,7 @@ def normalize_event(raw_event):
     }
 
     normalized = {
-        "timestamp": raw_event.get("TimeCreated"),
+        "timestamp": clean_timestamp(raw_event.get("TimeCreated")),
         "event_id": event_id,
         "event_type": event_type_map.get(event_id, "unknown"),
         "host": extract_field(message, "Computer") or "local_endpoint",

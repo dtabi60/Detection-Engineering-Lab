@@ -1,6 +1,10 @@
+from storage.entity_writer import write_alert_to_entities
 import json
 import sqlite3
 from pathlib import Path
+
+from scoring.risk import score_powershell, severity_from_score
+from storage.entity_writer import write_alert_to_entities
 
 DB_FILE = Path("data/edr_events.db")
 ALERT_FILE = Path("data/alerts/detection_alerts.json")
@@ -26,51 +30,41 @@ def detect_powershell(event):
     alerts = []
 
     image = (event.get("image") or "").lower()
-    command_line = (event.get("command_line") or "").lower()
+    command_line = event.get("command_line") or ""
 
     if "powershell.exe" not in image:
         return alerts
 
-    reasons = []
-    risk_score = 0
-
-    if "-encodedcommand" in command_line or "-enc" in command_line:
-        reasons.append("Encoded PowerShell command detected")
-        risk_score += 40
-
-    if "-executionpolicy bypass" in command_line:
-        reasons.append("ExecutionPolicy Bypass detected")
-        risk_score += 25
-
-    if "-windowstyle hidden" in command_line:
-        reasons.append("Hidden PowerShell window detected")
-        risk_score += 25
-
-    if "-noprofile" in command_line:
-        reasons.append("NoProfile flag detected")
-        risk_score += 10
+    risk_score, reasons = score_powershell(command_line)
+    severity = severity_from_score(risk_score)
 
     if risk_score > 0:
-        severity = "Low"
-        if risk_score >= 70:
-            severity = "High"
-        elif risk_score >= 40:
-            severity = "Medium"
-
-        alerts.append({
+        alert = {
             "alert_name": "Suspicious PowerShell Execution",
             "severity": severity,
             "risk_score": risk_score,
             "timestamp": event.get("timestamp"),
             "user": event.get("user"),
             "host": event.get("host"),
+            "hostname": event.get("host"),
             "image": event.get("image"),
+            "process_name": event.get("image"),
+            "process_id": event.get("process_id"),
+            "parent_process_id": event.get("parent_process_id"),
             "command_line": event.get("command_line"),
             "parent_image": event.get("parent_image"),
             "mitre_tactic": "Execution",
             "mitre_technique": "T1059.001 - PowerShell",
+            "description": "PowerShell executed with suspicious command-line behavior.",
             "reasons": reasons
-        })
+        }
+
+        alerts.append(alert)
+
+        try:
+            write_alert_to_entities(alert)
+        except Exception as e:
+            print(f"[entity_writer] Failed to write alert: {e}")
 
     return alerts
 
