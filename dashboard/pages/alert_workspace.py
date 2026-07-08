@@ -1,5 +1,6 @@
 import streamlit as st
 
+from dashboard.components.process_tree import render_process_tree
 from dashboard.api_client import (
     get_alerts,
     get_alert_details,
@@ -124,12 +125,7 @@ def render_alert_workspace_page():
             st.info("No storyline available for this alert.")
 
     with tab3:
-        st.subheader("Process Tree")
-
-        if process_tree:
-            st.json(process_tree)
-        else:
-            st.info("No process tree available for this alert.")
+        render_process_tree(process_tree)
 
     with tab4:
         st.subheader("Response Actions Hub")
