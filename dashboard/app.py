@@ -2,10 +2,13 @@ import sqlite3
 
 import pandas as pd
 import streamlit as st
+from streamlit_autorefresh import st_autorefresh
 
-from dashboard.pages.timeline import render_timeline_page
 from dashboard.pages.alert_workspace import render_alert_workspace_page
 from dashboard.pages.dashboard_overview import render_dashboard_page
+from dashboard.pages.live_alerts import render_live_alerts_page
+from dashboard.pages.network_graph import render_network_graph_page
+from dashboard.pages.timeline import render_timeline_page
 
 
 DB_PATH = "storage/entities.db"
@@ -37,6 +40,9 @@ def get_metric_count(table):
 st.title("🛡️ Detection Engineering Lab")
 st.caption("Version 2.2 - API Driven Investigation Workspace")
 
+st_autorefresh(interval=10000, key="live_refresh")
+st.sidebar.success("Live refresh: every 10 seconds")
+
 
 page = st.sidebar.radio(
     "Navigation",
@@ -47,6 +53,8 @@ page = st.sidebar.radio(
         "Investigation",
         "Alert Workspace",
         "Timeline",
+        "Live Alerts",
+        "Network Graph",
     ],
 )
 
@@ -78,7 +86,7 @@ elif page == "Alerts":
     st.header("Alerts")
 
     alerts_df = query_db("""
-        SELECT 
+        SELECT
             a.id,
             e.hostname,
             a.alert_name,
@@ -132,7 +140,7 @@ elif page == "Investigation":
         endpoint_id = endpoint_options[selected]
 
         endpoint_df = query_db("""
-            SELECT 
+            SELECT
                 id,
                 hostname,
                 ip_address,
@@ -171,7 +179,7 @@ elif page == "Investigation":
             st.subheader("Alerts with AI Enrichment")
 
             alerts_df = query_db("""
-                SELECT 
+                SELECT
                     alert_name,
                     severity,
                     mitre_technique,
@@ -215,7 +223,7 @@ elif page == "Investigation":
             st.subheader("Processes")
 
             processes_df = query_db("""
-                SELECT 
+                SELECT
                     process_name,
                     process_id,
                     parent_process_id,
@@ -241,7 +249,7 @@ elif page == "Investigation":
             st.subheader("Network Connections")
 
             network_df = query_db("""
-                SELECT 
+                SELECT
                     process_id,
                     destination_ip,
                     destination_port,
@@ -258,7 +266,7 @@ elif page == "Investigation":
             st.subheader("File Events")
 
             files_df = query_db("""
-                SELECT 
+                SELECT
                     process_id,
                     file_path,
                     file_hash,
@@ -278,3 +286,11 @@ elif page == "Alert Workspace":
 
 elif page == "Timeline":
     render_timeline_page()
+
+
+elif page == "Live Alerts":
+    render_live_alerts_page()
+
+
+elif page == "Network Graph":
+    render_network_graph_page()

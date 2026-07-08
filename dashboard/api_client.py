@@ -28,12 +28,19 @@ def get_process_tree(process_guid: str):
 
 
 def get_response_actions(alert_id: str):
-    response = requests.get(f"{API_BASE_URL}/api/v1/response-actions/{alert_id}")
+    response = requests.get(
+        f"{API_BASE_URL}/api/v1/response-actions/{alert_id}"
+    )
     response.raise_for_status()
     return response.json()
 
 
-def create_response_action(host_id: str, alert_id: str, action_type: str, target_identifier: str):
+def create_response_action(
+    host_id: str,
+    alert_id: str,
+    action_type: str,
+    target_identifier: str,
+):
     payload = {
         "host_id": host_id,
         "alert_id": alert_id,
@@ -45,5 +52,60 @@ def create_response_action(host_id: str, alert_id: str, action_type: str, target
         f"{API_BASE_URL}/api/v1/response-actions/",
         json=payload,
     )
+
+    response.raise_for_status()
+    return response.json()
+
+
+def get_timeline(
+    start_time=None,
+    end_time=None,
+    host_id=None,
+    bucket_minutes=5,
+):
+    params = {
+        "bucket_minutes": bucket_minutes,
+    }
+
+    if start_time:
+        params["start_time"] = start_time
+
+    if end_time:
+        params["end_time"] = end_time
+
+    if host_id:
+        params["host_id"] = host_id
+
+    response = requests.get(
+        f"{API_BASE_URL}/api/v1/timeline/",
+        params=params,
+    )
+
+    response.raise_for_status()
+    return response.json()
+
+
+def get_network_graph(
+    host_id=None,
+    start_time=None,
+    end_time=None,
+):
+    params = {}
+
+    if host_id:
+        params["host_id"] = host_id
+
+    if start_time:
+        params["start_time"] = start_time
+
+    if end_time:
+        params["end_time"] = end_time
+
+    response = requests.get(
+        f"{API_BASE_URL}/api/v1/network-graph/",
+        params=params,
+        timeout=30,
+    )
+
     response.raise_for_status()
     return response.json()
