@@ -7,6 +7,9 @@ from api.routers.cases import router as cases_router
 from api.routers.response_actions import router as response_actions_router
 from api.routers.timeline import router as timeline_router
 from api.routers.entities import router as entities_router
+from api.routers.network_graph import router as network_graph_router
+from api.routers.entity_pivot import router as entity_pivot_router
+
 
 
 app = FastAPI(
@@ -31,6 +34,9 @@ app.include_router(cases_router)
 app.include_router(response_actions_router)
 app.include_router(timeline_router)
 app.include_router(entities_router)
+
+app.include_router(network_graph_router)
+app.include_router(entity_pivot_router)
 
 
 # ============================

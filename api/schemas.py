@@ -4,20 +4,16 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
 
+# ============================================================
+# Response Actions
+# ============================================================
+
 class ResponseActionType(str, Enum):
     isolate_host = "Isolate Host"
     kill_process = "Kill Process"
     quarantine_file = "Quarantine File"
     disconnect_network = "Disconnect Network"
     collect_forensic_package = "Collect Forensic Package"
-
-
-class EntityType(str, Enum):
-    user = "user"
-    process = "process"
-    ip = "ip"
-    hostname = "hostname"
-    file_hash = "file_hash"
 
 
 class ResponseActionRequest(BaseModel):
@@ -33,6 +29,10 @@ class ResponseActionResponse(BaseModel):
     status: str
     action: Dict[str, Any]
 
+
+# ============================================================
+# Timeline
+# ============================================================
 
 class TimelineEvent(BaseModel):
     alert_id: Optional[str] = None
@@ -56,8 +56,116 @@ class TimelineResponse(BaseModel):
     timeline: List[TimelineBucket]
 
 
-class EntityPivotResponse(BaseModel):
-    entity_id: str
+# ============================================================
+# Entity Types
+# ============================================================
+
+class EntityType(str, Enum):
+    host = "host"
+    hostname = "hostname"
+    ip = "ip"
+    user = "user"
+    hash = "hash"
+    file_hash = "file_hash"
+    process = "process"
+    process_guid = "process_guid"
+    process_name = "process_name"
+    unknown = "unknown"
+
+
+# ============================================================
+# Network Graph
+# ============================================================
+
+class NetworkGraphNodeType(str, Enum):
+    source_ip = "source_ip"
+    destination_ip = "destination_ip"
+    process = "process"
+
+
+class NetworkGraphNode(BaseModel):
+    id: str
+    label: str
+    type: NetworkGraphNodeType
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class NetworkGraphEdge(BaseModel):
+    id: str
+    source: str
+    target: str
+    label: str
+    weight: int = 1
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class NetworkGraphResponse(BaseModel):
+    node_count: int
+    edge_count: int
+    nodes: List[NetworkGraphNode]
+    edges: List[NetworkGraphEdge]
+
+
+# ============================================================
+# Entity Pivot
+# ============================================================
+
+class EntityTimelineEvent(BaseModel):
+    timestamp: Optional[str] = None
+    event_type: str
+    source: str
     entity_type: EntityType
-    match_count: int
-    matches: List[Dict[str, Any]]
+    entity_value: str
+
+    alert_id: Optional[str] = None
+    host_id: Optional[str] = None
+    process_guid: Optional[str] = None
+    severity: Optional[str] = None
+    summary: Optional[str] = None
+
+    raw: Dict[str, Any] = Field(default_factory=dict)
+
+
+class EntityPivotResponse(BaseModel):
+    entity_value: str
+    entity_type: EntityType
+    count: int
+    timeline: List[EntityTimelineEvent]
+
+
+# ============================================================
+# MITRE ATT&CK
+# ============================================================
+
+class MITREEnrichment(BaseModel):
+    technique_id: str
+    technique_name: str
+    tactic: str
+    badge: str
+
+
+# ============================================================
+# AI Summary
+# ============================================================
+
+class AlertSummaryRequest(BaseModel):
+    alert: Dict[str, Any]
+
+
+class AlertSummaryResponse(BaseModel):
+    analyst_summary: str
+    confidence: str = "medium"
+
+
+# ============================================================
+# Unified Investigation
+# ============================================================
+
+class UnifiedInvestigationResponse(BaseModel):
+    alert_id: str
+    alert: Dict[str, Any]
+
+    processes: List[Dict[str, Any]]
+    network_connections: List[Dict[str, Any]]
+    file_events: List[Dict[str, Any]]
+    response_actions: List[Dict[str, Any]]
