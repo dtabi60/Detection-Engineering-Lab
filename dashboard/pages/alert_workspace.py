@@ -2,6 +2,7 @@ import streamlit as st
 
 from dashboard.components.process_tree import render_process_tree
 from dashboard.components.storyline_viewer import render_storyline_viewer
+from dashboard.components.mitre_badges import render_mitre_badges
 from dashboard.api_client import (
     get_alerts,
     get_alert_details,
@@ -122,6 +123,10 @@ def render_alert_workspace_page():
             st.caption(f"Confidence: {ai_summary.get('confidence', 'unknown')}")
         except Exception as e:
             st.warning(f"AI summary unavailable: {e}")
+
+        st.divider()
+
+        render_mitre_badges(selected_alert)
 
         st.divider()
 
