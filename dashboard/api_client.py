@@ -109,3 +109,13 @@ def get_network_graph(
 
     response.raise_for_status()
     return response.json()
+
+def create_ai_summary(alert: dict):
+    response = requests.post(
+        f"{API_BASE_URL}/api/v1/ai-summary/",
+        json={"alert": alert},
+        timeout=30,
+    )
+
+    response.raise_for_status()
+    return response.json()

@@ -1,6 +1,7 @@
 import streamlit as st
 
 from dashboard.components.process_tree import render_process_tree
+from dashboard.components.storyline_viewer import render_storyline_viewer
 from dashboard.api_client import (
     get_alerts,
     get_alert_details,
@@ -8,6 +9,7 @@ from dashboard.api_client import (
     get_process_tree,
     get_response_actions,
     create_response_action,
+    create_ai_summary,
 )
 
 
@@ -111,19 +113,28 @@ def render_alert_workspace_page():
     with tab1:
         st.subheader("Alert Details")
 
+        st.subheader("🤖 AI Investigation Summary")
+
+        try:
+            ai_summary = create_ai_summary(selected_alert)
+
+            st.info(ai_summary.get("analyst_summary", "No summary returned."))
+            st.caption(f"Confidence: {ai_summary.get('confidence', 'unknown')}")
+        except Exception as e:
+            st.warning(f"AI summary unavailable: {e}")
+
+        st.divider()
+
+        st.subheader("Raw Alert Details")
+
         if alert_details:
             st.json(alert_details)
         else:
             st.info("No alert details available.")
-
     with tab2:
-        st.subheader("Storyline Timeline")
+        render_storyline_viewer(storyline)
 
-        if storyline:
-            st.json(storyline)
-        else:
-            st.info("No storyline available for this alert.")
-
+        
     with tab3:
         render_process_tree(process_tree)
 
