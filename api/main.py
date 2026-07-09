@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from api.routers.ai_summary import router as ai_summary_router
 from api.routers.alerts import router as alerts_router
 from api.routers.storyline import router as storyline_router
 from api.routers.process_tree import router as process_tree_router
@@ -9,7 +10,9 @@ from api.routers.timeline import router as timeline_router
 from api.routers.entities import router as entities_router
 from api.routers.network_graph import router as network_graph_router
 from api.routers.entity_pivot import router as entity_pivot_router
-
+from api.routers.unified_investigation import router as unified_investigation_router
+from api.routers.powershell_telemetry import router as powershell_telemetry_router
+from api.routers.unified_timeline import router as unified_timeline_router
 
 
 app = FastAPI(
@@ -34,11 +37,12 @@ app.include_router(cases_router)
 app.include_router(response_actions_router)
 app.include_router(timeline_router)
 app.include_router(entities_router)
-
+app.include_router(ai_summary_router)
 app.include_router(network_graph_router)
 app.include_router(entity_pivot_router)
-
-
+app.include_router(unified_investigation_router)
+app.include_router(powershell_telemetry_router)
+app.include_router(unified_timeline_router)
 # ============================
 # Root Endpoint
 # ============================

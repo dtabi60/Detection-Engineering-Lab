@@ -119,3 +119,21 @@ def create_ai_summary(alert: dict):
 
     response.raise_for_status()
     return response.json()
+
+def get_unified_investigation(alert_id: str):
+    response = requests.get(
+        f"{API_BASE_URL}/api/v1/unified-investigation/{alert_id}",
+        timeout=30,
+    )
+
+    response.raise_for_status()
+    return response.json()
+
+def get_unified_timeline():
+    response = requests.get(
+        f"{API_BASE_URL}/api/v1/unified-timeline/",
+        timeout=30,
+    )
+
+    response.raise_for_status()
+    return response.json()
