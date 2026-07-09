@@ -4,6 +4,7 @@ from typing import Dict, List
 from api.models.telemetry import UniversalEvent
 from api.services.detection_engine import evaluate_universal_events
 from api.services.universal_events import (
+    normalize_defender_row,
     normalize_powershell_row,
     normalize_sysmon_network_row,
     normalize_sysmon_process_row,
@@ -43,6 +44,9 @@ def build_unified_timeline() -> Dict:
 
     for row in fetch_rows("powershell_4104_events"):
         events.append(normalize_powershell_row(row))
+
+    for row in fetch_rows("defender_events"):
+        events.append(normalize_defender_row(row))
 
     events.sort(key=lambda event: event.timestamp)
 

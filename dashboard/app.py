@@ -4,11 +4,15 @@ import pandas as pd
 import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 
+from dashboard.pages.unified_investigation import render_unified_investigation_page
 from dashboard.pages.alert_workspace import render_alert_workspace_page
 from dashboard.pages.dashboard_overview import render_dashboard_page
 from dashboard.pages.live_alerts import render_live_alerts_page
 from dashboard.pages.network_graph import render_network_graph_page
 from dashboard.pages.timeline import render_timeline_page
+from dashboard.pages.windows_security import render_windows_security_page
+from dashboard.pages.unified_timeline import render_unified_timeline_page
+from dashboard.pages.defender import render_defender_page      
 
 
 DB_PATH = "storage/entities.db"
@@ -39,9 +43,9 @@ def get_metric_count(table):
 
 st.title("🛡️ Detection Engineering Lab")
 st.caption("Version 2.2 - API Driven Investigation Workspace")
-
 st_autorefresh(interval=10000, key="live_refresh")
 st.sidebar.success("Live refresh: every 10 seconds")
+
 
 
 page = st.sidebar.radio(
@@ -55,13 +59,19 @@ page = st.sidebar.radio(
         "Timeline",
         "Live Alerts",
         "Network Graph",
+        "Unified Investigation",
+        "Windows Security Events",
+        "Unified Event Timeline",
     ],
 )
+
 
 
 if page == "Dashboard":
     render_dashboard_page(query_db, get_metric_count)
 
+elif page == "Unified Investigation":
+    render_unified_investigation_page()
 
 elif page == "Endpoints":
     st.header("Endpoints")
@@ -294,3 +304,12 @@ elif page == "Live Alerts":
 
 elif page == "Network Graph":
     render_network_graph_page()
+
+elif page == "Windows Security Events":
+    render_windows_security_page()
+
+elif page == "Unified Event Timeline":
+    render_unified_timeline_page()
+
+elif page == "Defender Events":
+    render_defender_page()

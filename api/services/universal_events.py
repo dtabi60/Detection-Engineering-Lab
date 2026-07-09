@@ -117,3 +117,25 @@ def parse_time(value: Any) -> datetime:
         return datetime.fromisoformat(text)
     except ValueError:
         return datetime.utcnow()
+    
+def normalize_defender_row(row: Dict[str, Any]) -> UniversalEvent:
+    event_type = str(row.get("event_type") or "").lower()
+
+    action = NormalizedAction.unknown
+
+    if "malware" in event_type or "behavior" in event_type:
+        action = NormalizedAction.script_execution
+    elif "remediation" in event_type:
+        action = NormalizedAction.file_write
+
+    return UniversalEvent(
+        timestamp=parse_time(row.get("timestamp")),
+        event_id=str(row.get("event_id")),
+        source=TelemetrySource.defender,
+        actor_user=None,
+        subject_domain=None,
+        process_context=ProcessContext(),
+        normalized_action=action,
+        summary=row.get("event_type") or "Microsoft Defender event.",
+        raw_payload=row,
+    )

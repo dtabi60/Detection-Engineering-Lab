@@ -9,6 +9,7 @@ class TelemetrySource(str, Enum):
     sysmon = "Sysmon"
     win_security = "WinSecurity"
     powershell = "PowerShell"
+    defender = "Defender"
 
 
 class NormalizedAction(str, Enum):
